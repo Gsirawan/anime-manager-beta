@@ -1,0 +1,62 @@
+# Dependencies
+node_modules
+
+# Build output
+/.svelte-kit
+/build
+.output
+.vercel
+.netlify
+.wrangler
+dist/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.*
+!.env.example
+!.env.test
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# Tests
+test-results
+playwright-report
+coverage/
+.nyc_output/
+
+# Database and runtime data
+data/
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite-journal
+
+# Logs
+*.log
+npm-debug.log*
+
+# Downloaded data dumps (refetched daily)
+*.xml.gz
+anime-titles.xml
+
+# Editor and local tooling
+.vscode/
+.idea/
+.claude/
+.superpowers/
+
+# Private operational notes (kept in upstream private repo only)
+CLAUDE.md
+
+# Deployment scripts specific to upstream host
+deploy/
+
+# Internal screenshots and design notes
+# (public repo keeps its own docs/, populated separately)

@@ -1,0 +1,25 @@
+-- List-separator fix — backfill reset.
+--
+-- Background:
+--   src/lib/server/jobs/handlers/animeFetch.ts split list fields by "'"
+--   (apostrophe) but AniDB ANIME responses join in-field lists with ","
+--   (comma). Confirmed against the wire via scripts/probe-anime.mjs on
+--   2026-05-16. Effect: every tag_id_list / tag_name_list / tag_weight_list /
+--   character_id_list / related_aid_list / related_aid_type / short_name_list /
+--   synonym_list / other_names collapsed to a single comma-joined string,
+--   Number() failed on it, and the handler skipped every row.
+--
+--   The byte-5 amask fix in migration 006 already triggered a re-fetch of
+--   all 95 cached aids — but those re-fetches ran under the still-broken
+--   splitApos. Tags/chars/relations stayed at zero, and synonym/short rows
+--   got persisted with their full comma-joined list as a single title cell.
+--
+-- Fix:
+--   splitApos → splitList using ",". This migration clears
+--   origin_backfill_done a third time so hydrateWorkerContext re-enqueues
+--   every cached aid under the corrected splitter. The animeFetch handler's
+--   DELETE-then-INSERT pattern naturally wipes the comma-joined stale rows
+--   from anime_title / anime_tag / anime_relation / anime_character on
+--   re-fetch.
+
+DELETE FROM meta WHERE key = 'origin_backfill_done';

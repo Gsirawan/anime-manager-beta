@@ -1,0 +1,188 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+:root {
+	/* ─── Background scale ─── */
+	--bg: oklch(15% 0.012 270);
+	--surface: oklch(20% 0.014 270);
+	--surface-2: oklch(24% 0.016 270);
+	--surface-3: oklch(28% 0.018 270);
+
+	/* ─── Border / outline ─── */
+	--border: oklch(38% 0.02 270 / 0.5);
+	--border-hover: oklch(50% 0.04 270 / 0.7);
+
+	/* ─── Text ─── */
+	--text: oklch(96% 0.015 270);
+	--text-muted: oklch(72% 0.02 270);
+	--text-dim: oklch(55% 0.02 270);
+
+	/* ─── Accent (Deep Indigo) ─── */
+	--accent: oklch(60% 0.26 270);
+	--accent-soft: oklch(60% 0.26 270 / 0.18);
+	--accent-strong: oklch(54% 0.28 270);
+	--accent-glow: oklch(60% 0.26 270 / 0.25);
+
+	/* ─── Status colors ─── */
+	--status-plan: oklch(70% 0.16 230);
+	--status-watching: oklch(60% 0.26 270);
+	--status-completed: oklch(68% 0.18 145);
+	--status-on-hold: oklch(75% 0.18 80);
+	--status-dropped: oklch(62% 0.2 25);
+
+	/* ─── Functional ─── */
+	--success: oklch(70% 0.18 145);
+	--warning: oklch(75% 0.18 80);
+	--error: oklch(62% 0.22 25);
+
+	/* ─── Spacing (4px base) ─── */
+	--space-1: 4px;
+	--space-2: 8px;
+	--space-3: 12px;
+	--space-4: 16px;
+	--space-5: 20px;
+	--space-6: 24px;
+	--space-8: 32px;
+	--space-10: 48px;
+
+	/* ─── Radius ─── */
+	--radius-sm: 4px;
+	--radius-md: 6px;
+	--radius-lg: 8px;
+	--radius-xl: 12px;
+	--radius-pill: 999px;
+	/* Legacy alias for any code that still references --radius */
+	--radius: var(--radius-lg);
+
+	/* ─── Type scale ─── */
+	--text-xs: 11px;
+	--text-sm: 12px;
+	--text-base: 13px;
+	--text-md: 14px;
+	--text-lg: 16px;
+	--text-xl: 18px;
+	--text-2xl: 24px;
+
+	/* ─── Shadows ─── */
+	--shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+	--shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
+	--shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+	--shadow-glow: 0 6px 20px var(--accent-glow);
+
+	/* ─── Motion ─── */
+	--t-fast: 120ms;
+	--t-base: 180ms;
+	--t-slow: 280ms;
+	--ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+	/* ─── Layout ─── */
+	--header-h: 56px;
+	--sidebar-w: 220px;
+	--sidebar-w-collapsed: 56px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:root {
+		--t-fast: 0ms;
+		--t-base: 0ms;
+		--t-slow: 0ms;
+	}
+}
+
+html,
+body {
+	height: 100%;
+	background: var(--bg);
+	color: var(--text);
+}
+
+* {
+	scrollbar-width: thin;
+	scrollbar-color: var(--border) transparent;
+}
+
+/* ─── Shared component primitives (only those reused across components) ─── */
+
+.btn {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-2);
+	padding: var(--space-2) var(--space-4);
+	border-radius: var(--radius-md);
+	font-size: var(--text-sm);
+	font-weight: 600;
+	border: 1px solid transparent;
+	cursor: pointer;
+	transition:
+		background var(--t-fast) var(--ease-out),
+		border-color var(--t-fast) var(--ease-out),
+		transform var(--t-fast) var(--ease-out);
+}
+.btn-primary {
+	background: var(--accent);
+	color: white;
+}
+.btn-primary:hover {
+	background: var(--accent-strong);
+}
+.btn-ghost {
+	background: rgba(255, 255, 255, 0.05);
+	color: var(--text);
+	border-color: var(--border);
+}
+.btn-ghost:hover {
+	background: var(--surface-2);
+	border-color: var(--border-hover);
+}
+
+.chip {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-1);
+	padding: var(--space-1) var(--space-3);
+	border-radius: var(--radius-pill);
+	font-size: var(--text-sm);
+	background: var(--surface-2);
+	color: var(--text-muted);
+	border: 1px solid var(--border);
+	cursor: pointer;
+	transition:
+		background var(--t-fast) var(--ease-out),
+		color var(--t-fast) var(--ease-out),
+		border-color var(--t-fast) var(--ease-out);
+}
+.chip:hover {
+	background: var(--surface-3);
+	color: var(--text);
+}
+.chip.active {
+	background: var(--accent-soft);
+	color: var(--text);
+	border-color: var(--accent);
+}
+.chip .count {
+	color: var(--text-dim);
+	font-size: var(--text-xs);
+	margin-left: var(--space-1);
+}
+
+.icon-btn {
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(15, 17, 23, 0.85);
+	color: var(--text);
+	border: 1px solid rgba(255, 255, 255, 0.15);
+	cursor: pointer;
+	backdrop-filter: blur(4px);
+	transition:
+		background var(--t-fast) var(--ease-out),
+		transform var(--t-fast) var(--ease-out);
+}
+.icon-btn:hover {
+	background: var(--accent);
+	border-color: var(--accent);
+}
